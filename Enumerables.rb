@@ -28,6 +28,16 @@ class Array
         new_array
     end
 
+    def my_any?(&bloc)
+        self.my_each do |ele|
+            if bloc.call(ele) 
+                return true
+            end
+        end
+        return false
+    end
+
+
 end
 
 # calls my_each twice on the array, printing all the numbers twice.
@@ -49,6 +59,12 @@ end
     # p a.my_select { |num| num > 1 } # => [2, 3]
     # p a.my_select { |num| num == 4 } # => []
 
+# a = [1, 2, 3]
+# p a.my_reject { |num| num > 1 } # => [1]
+# p a.my_reject { |num| num == 4 } # => [1, 2, 3]
+
 a = [1, 2, 3]
-p a.my_reject { |num| num > 1 } # => [1]
-p a.my_reject { |num| num == 4 } # => [1, 2, 3]
+p a.my_any? { |num| num > 1 } # => true
+p a.my_any? { |num| num == 4 } # => false
+# a.my_all? { |num| num > 1 } # => false
+# a.my_all? { |num| num < 4 } # => true
