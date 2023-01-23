@@ -18,9 +18,15 @@ class Array
         new_ary
     end
 
-    # a = [1, 2, 3]
-    # p a.my_select { |num| num > 1 } # => [2, 3]
-    # p a.my_select { |num| num == 4 } # => []
+    def my_reject(&bloc)
+        new_array = []
+        self.my_each do |ele|
+            if !bloc.call(ele)
+                new_array << ele
+            end
+        end
+        new_array
+    end
 
 end
 
@@ -38,3 +44,11 @@ end
 #        3
    
 #    p return_value  # => [1, 2, 3]
+
+    # a = [1, 2, 3]
+    # p a.my_select { |num| num > 1 } # => [2, 3]
+    # p a.my_select { |num| num == 4 } # => []
+
+a = [1, 2, 3]
+p a.my_reject { |num| num > 1 } # => [1]
+p a.my_reject { |num| num == 4 } # => [1, 2, 3]
