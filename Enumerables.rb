@@ -37,9 +37,29 @@ class Array
         return false
     end
 
+    def my_all?(&bloc)
+        self.my_each do |ele|
+            return false if !bloc.call(ele)
+        end
+        return true
+    end
+
+    def my_flatten
+        final_array = []
+        self.my_each do |ele|
+            if ele.is_a? Array 
+                final_array.concat(ele.my_flatten)
+            else
+                final_array << ele
+            end
+        end
+        final_array
+    end
 
 end
 
+# return array.first if array.length == 1
+p [1, 2, 3, [4, [5, 6]], [[[7]], 8]].my_flatten # => [1, 2, 3, 4, 5, 6, 7, 8]
 # calls my_each twice on the array, printing all the numbers twice.
 # return_value = [1, 2, 3].my_each do |num|
 #     puts num
@@ -63,8 +83,8 @@ end
 # p a.my_reject { |num| num > 1 } # => [1]
 # p a.my_reject { |num| num == 4 } # => [1, 2, 3]
 
-a = [1, 2, 3]
-p a.my_any? { |num| num > 1 } # => true
-p a.my_any? { |num| num == 4 } # => false
-# a.my_all? { |num| num > 1 } # => false
-# a.my_all? { |num| num < 4 } # => true
+# a = [1, 2, 3]
+# # p a.my_any? { |num| num > 1 } # => true
+# # p a.my_any? { |num| num == 4 } # => false
+# p a.my_all? { |num| num > 1 } # => false
+# p a.my_all? { |num| num < 4 } # => true
